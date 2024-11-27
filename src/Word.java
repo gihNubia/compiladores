@@ -22,6 +22,9 @@ public class Word extends Token{
         super(tag);
         lexeme = s;
     }
-    
+  
+    public String toString(){
+        return "" + lexeme;
+    }
 
 }
