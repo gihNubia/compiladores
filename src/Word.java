@@ -22,5 +22,6 @@ public class Word extends Token{
         super(tag);
         lexeme = s;
     }
+    //
 
 }
