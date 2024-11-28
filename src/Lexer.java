@@ -36,7 +36,10 @@ public class Lexer {
 
     }
     private void readch() throws IOException {
-        ch = (char) file.read();
+        int aux = file.read();
+        if (aux == -1)
+            System.out.println("\n\nEOF -- tratar mais tarde");
+        ch = (char) aux;
     }
 
     private boolean readncomparech(char c) throws IOException{
@@ -54,7 +57,49 @@ public class Lexer {
     }
 
     public Token scan() throws IOException {
-        return new Token(0);
+        while(true){
+
+            if (ch == ' ' || ch == '\t' || ch == '\r' || ch == '\b'){
+                readch();
+            }
+            else if(ch == '\n'){
+                readch();
+                line++;
+            }
+            else break;
+
+        }
+
+        switch (ch){
+            case '=':
+                if (readncomparech('=')) return Word.equal;
+                return Word.at;
+            case '>':
+                if (readncomparech('=')) return Word.ge;
+                return Word.gt;
+            case '<':
+                if (readncomparech('=')) return Word.le;
+                return Word.lt;
+            case '!':
+                if (readncomparech('=')) return Word.ne;
+                return Word.nt;
+            case '+':
+                return Word.plus;
+            case '-':
+                return Word.minus;
+            case '|':
+                if (readncomparech('|')) return Word.or;
+                else return new Token('|');
+            case '*':
+                return Word.multiply;
+            case '/':
+                return Word.divide;
+            case '%':
+                return Word.modulus;
+            case '&':
+                if (readncomparech('&')) return Word.and;
+                return new Token('&');
+        }
     }
 
 }

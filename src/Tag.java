@@ -17,31 +17,31 @@ public class Tag {
             SCAN = 12,
             PRINT = 13,
 
-            EQ = 14, // ==
-            GT = 15, // >
-            LT = 16, // <
-            GE = 17, // >=
-            LE = 18, // <=
-            NE = 19, // !=
-            PLUS = 20, // +
-            MINUS = 21, // -
-            OR = 22, // ||
-            MULTIPLY = 23, // *
-            DIVIDE = 25, // /
-            MODULUS = 26, // %
-            AND = 27, // &&
-            OB = 28, // {
-            CB = 29, // }
-            POINT = 30, // .
-            UL = 31, // _
+            AT = 20, // =
+            EQ = 21, // ==
+            GT = 22, // >
+            LT = 23, // <
+            GE = 24, // >=
+            LE = 25, // <=
+            NE = 26, // !=
+            PLUS = 27, // +
+            MINUS = 28, // -
+            OR = 29, // ||
+            MULTIPLY = 30, // *
+            DIVIDE = 31, // /
+            MODULUS = 32, // %
+            AND = 33, // &&
+            SC = 38, // ;
+            CL= 39, // ,
+            NT = 40, // !
 
-            INTEGER_C = 32,
-            ID = 33,
-            FLOAT_C = 34,
-            CHAR = 35,
-            LETTER = 36,
-            DIGIT = 37,
-            LITERAL = 38,
-            CONST = 39;
+            INTEGER_C = 50,
+            ID = 51,
+            FLOAT_C = 51,
+            CHAR = 52,
+            LETTER = 53,
+            DIGIT = 54,
+            LITERAL = 55,
+            CONST = 56;
 
 }

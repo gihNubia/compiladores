@@ -1,7 +1,7 @@
 public class Word extends Token{
     private String lexeme = "";
 
-    public static final Word equal = new Word("==", Tag.AND);
+    public static final Word equal = new Word("==", Tag.EQ);
     public static final Word gt = new Word(">", Tag.GT);
     public static final Word ge = new Word(">=", Tag.GE);
     public static final Word lt = new Word("<", Tag.LT);
@@ -14,9 +14,10 @@ public class Word extends Token{
     public static final Word divide = new Word("/", Tag.DIVIDE);
     public static final Word modulus = new Word("%", Tag.MODULUS);
     public static final Word and = new Word("&&", Tag.AND);
-    public static final Word ob = new Word("{", Tag.OB);
-    public static final Word cb = new Word("", Tag.CB);
-    //public static final Word underline = new Word("_", Tag.UL);
+    public static final Word at = new Word("=", Tag.AT);
+    public static final Word cl = new Word(",", Tag.CL);
+    public static final Word sc = new Word(";", Tag.SC);
+    public static final Word nt = new Word("!", Tag.NT);
 
     public Word (String s, int tag){
         super(tag);
