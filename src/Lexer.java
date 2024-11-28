@@ -7,12 +7,11 @@ public class Lexer {
     int line;
     char ch;
     BufferedReader file;
-    Hashtable words;
+    Hashtable<String, Word> words = new Hashtable<String, Word>();
 
     public Lexer(BufferedReader file){
         line = 1;
         this.file = file;
-        this.words = new Hashtable<>();
         try{
             readch();
         }
@@ -69,7 +68,7 @@ public class Lexer {
             else break;
 
         }
-
+        //token simples
         switch (ch){
             case '=':
                 if (readncomparech('=')) return Word.equal;
@@ -100,6 +99,55 @@ public class Lexer {
                 if (readncomparech('&')) return Word.and;
                 return new Token('&');
         }
+        //numeros
+        if (Character.isDigit(ch)){
+            int value=0;
+
+            do{
+                value = 10*value + Character.digit(ch,10);
+                readch();
+            }while(Character.isDigit(ch));
+
+            if(ch == '.'){
+                readch();
+                double valuef = (double) value;
+                double fraction =  0.1;
+                while(Character.isDigit(ch)){
+                    valuef = valuef + fraction * Character.digit(ch,10);
+                    fraction = fraction/10;
+                }
+                return  new Float_c(valuef);
+            }
+            else{
+                return new Int(value);
+            }
+        }
+
+        //identificador
+        if (Character.isLetter(ch)){
+            StringBuilder sb = new StringBuilder();
+            do{
+                sb.append(ch);
+                readch();
+            }while(Character.isLetterOrDigit(ch));
+
+            String s = sb.toString();
+            Word w = (Word)words.get(s);
+            if (w != null) return w; //palavra já existe
+            w = new Word (s, Tag.ID);
+            words.put(s, w);
+            return w;
+        }
+
+        //literal
+        if(ch == '{'){
+            StringBuilder sb = new StringBuilder();
+            do{
+                sb.append(ch);
+                readch();
+            }while(ch != '}' || );
+        }
+
     }
 
 }
