@@ -8,7 +8,7 @@ public class Lexer {
     char ch;
     BufferedReader file;
     Hashtable<String, Word> words = new Hashtable<String, Word>();
-
+    boolean eof = false;
     public Lexer(BufferedReader file){
         line = 1;
         this.file = file;
@@ -37,7 +37,7 @@ public class Lexer {
     private void readch() throws IOException {
         int aux = file.read();
         if (aux == -1)
-            System.out.println("\n\nEOF -- tratar mais tarde");
+            eof = true;
         ch = (char) aux;
     }
 
@@ -145,7 +145,12 @@ public class Lexer {
             do{
                 sb.append(ch);
                 readch();
-            }while(ch != '}' || );
+            }while(ch != '}' && !eof && ch != '\n');
+
+            if(ch =='}'){
+
+            }
+
         }
 
     }
