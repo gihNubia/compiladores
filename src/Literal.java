@@ -1,6 +1,7 @@
 public class Literal extends Token{
-
-    public Literal(int tag) {
-        super(tag);
+    String value;
+    public Literal(String value) {
+        super(Tag.LITERAL);
+        this.value = value;
     }
 }

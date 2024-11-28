@@ -116,7 +116,7 @@ public class Lexer {
                     valuef = valuef + fraction * Character.digit(ch,10);
                     fraction = fraction/10;
                 }
-                return  new Float_c(valuef);
+                return new Float_c(valuef);
             }
             else{
                 return new Int(value);
@@ -148,7 +148,11 @@ public class Lexer {
             }while(ch != '}' && !eof && ch != '\n');
 
             if(ch =='}'){
-
+                sb.append(ch);
+                return  new Literal(sb.toString());
+            }
+            else{
+                throw new StringException("String mal formada", line, sb.toString());
             }
 
         }
