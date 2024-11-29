@@ -98,6 +98,10 @@ public class Lexer {
             case '&':
                 if (readncomparech('&')) return Word.and;
                 return new Token('&');
+            case ',':
+                return Word.cl;
+            case ';':
+                return Word.sc;
         }
         //numeros
         if (Character.isDigit(ch)){
@@ -156,6 +160,10 @@ public class Lexer {
             }
 
         }
+
+        Token t = new Token(ch);
+        ch = ' ';
+        return t;
 
     }
 

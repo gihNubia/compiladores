@@ -28,4 +28,7 @@ public class Word extends Token{
         return "" + lexeme;
     }
 
+    public String getLexeme() {
+        return lexeme;
+    }
 }
