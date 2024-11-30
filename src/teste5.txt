@@ -13,3 +13,17 @@ cadeira
 //comentario 2
 
 a
+
+//comentário 3
+b
+
+
+c
+
+1/2
+
+//comentário 4
+
+/**/
+
+/**

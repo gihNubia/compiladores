@@ -56,7 +56,7 @@ public class Lexer {
     }
 
     public Token scan() throws IOException {
-        outer:{
+
             while(true){
                   if(eof){
                     throw new EndOfFileException("Fim do Arquivo");
@@ -104,9 +104,12 @@ public class Lexer {
                     if (ch == '/'){
                         do {
                             readch();
+                            if (eof){
+                                return null;
+                            }
                         }while (ch != '\n');
                         readch();
-                        break outer;
+                        return null;
                     }
                     else if (ch == '*'){
                         readch();
@@ -115,14 +118,15 @@ public class Lexer {
                             before = ch;
                             readch();
                             if (before == '*' && ch =='/'){
-                                //readch();;
-                                break outer;
+                                readch();
+                                return null;
                             }
                         }
                     }
                     else{
                         return Word.divide;
                     }
+
                 case '%':
                     ch= ' ';
                     return Word.modulus;
@@ -201,7 +205,10 @@ public class Lexer {
                 }
 
             }
+        if (ch == ' ' || ch == '\r') {
+            return null;
         }
+
         Token t = new InvalidToken(String.valueOf(ch));
         ch = ' ';
         return t;

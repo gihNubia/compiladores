@@ -15,7 +15,10 @@ public class Main {
                     Lexer lexer = new Lexer(br);
                     try {
                         while (true) {
-                            tabela_de_tokens.addLast(lexer.scan());
+                            Token aux = lexer.scan();
+                            if (aux !=null){
+                                tabela_de_tokens.addLast(aux);
+                            }
                         }
                     }
                     catch (EndOfFileException eof){
