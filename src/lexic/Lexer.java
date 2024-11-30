@@ -9,7 +9,7 @@ public class Lexer {
     int line;
     char ch;
     BufferedReader file;
-    Hashtable<String, Word> words = new Hashtable<String, Word>();
+    public Hashtable<String, Word> words = new Hashtable<String, Word>();
     boolean eof = false;
 
     public Lexer(BufferedReader file) {

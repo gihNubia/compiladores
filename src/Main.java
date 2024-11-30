@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -18,11 +19,22 @@ public class Main {
         Optional.of(args)
                 .map(Main::getFileName)
                 .map(Main::getLexer)
-                .map(Main::getTokens)
-                .ifPresent(tokens -> {
-                    tokens.map(Token::toString)
-                            .forEach(System.out::println);
+                .ifPresent(lexer -> {
+                    System.out.println("Iniciar analise");
+                    List<Token> tokens = Main.getTokens(lexer).toList();
+                    System.out.println("==========================");
+                    System.out.println("Tokens: ");
+                    tokens.stream().map(Token::toString).forEach(System.out::println);
+                    System.out.println("==========================");
+                    System.out.println("Simbolos: ");
+                    lexer.words.keySet().forEach(System.out::println);
                 });
+
+                // .map(Main::getTokens)
+                // .ifPresent(tokens -> {
+                //     tokens.map(Token::toString)
+                //             .forEach(System.out::println);
+                // });
     }
 
     private static String getFileName(final String[] args) {
