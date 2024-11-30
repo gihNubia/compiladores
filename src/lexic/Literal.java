@@ -7,7 +7,7 @@ public class Literal extends Token{
         this.value = value;
     }
 
-    public String toString(){
-        return "" + value;
+    public String getValueString(){
+        return value;
     }
 }

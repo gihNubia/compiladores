@@ -7,7 +7,7 @@ public class InvalidToken extends Token{
         this.value = value;
     }
 
-    public String toString(){
+    public String getValueSting(){
         return "Invalid Token: \"" + value + "\"";
     }
 }

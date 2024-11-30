@@ -27,12 +27,12 @@ public class Word extends Token{
         super(tag);
         lexeme = s;
     }
-  
-    public String toString(){
-        return "" + lexeme;
-    }
 
     public String getLexeme() {
+        return lexeme;
+    }
+
+    public String getValueString() {
         return lexeme;
     }
 }

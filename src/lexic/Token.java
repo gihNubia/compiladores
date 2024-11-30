@@ -6,7 +6,13 @@ public class Token {
         tag = t;
     }
     public String toString(){
-        return  String.valueOf(tag);
+        return "[ " + this.getTagString() + ", " + this.getValueString() + " ]";
+    }
+    public String getTagString() {
+        return String.valueOf(tag);
+    }
+    public String getValueString() {
+        return "";
     }
 }
 

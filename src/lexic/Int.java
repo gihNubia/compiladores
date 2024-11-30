@@ -7,7 +7,7 @@ public class Int extends Token{
         this.value = value;
     }
 
-    public String toString() {
+    public String getValueString() {
         return "" + value;
     }
 }

@@ -6,9 +6,8 @@ public class Float_c extends Token {
         super(Tag.FLOAT_C);
         this.value = value;
     }
-
-    public String toString() {
+    
+    public String getValueString() {
         return "" + value;
     }
-
 }
