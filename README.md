@@ -22,4 +22,15 @@
   símbolos (identificadores e palavras reservadas) instalados na Tabela de Símbolos.
   Nas etapas seguintes, isso não deverá ser exibido. 
 
+## Comandos
+
+Compilar
+```sh
+javac -d out/production/lexico $(find . -name "*.java")
+```
+
+Rodar
+```sh
+java -cp out/production/lexico Main <file-name>.txt
+```
 
