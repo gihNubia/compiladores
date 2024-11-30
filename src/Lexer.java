@@ -57,7 +57,9 @@ public class Lexer {
 
     public Token scan() throws IOException {
         while(true){
-
+            if(eof){
+                throw new EndOfFileException("Fim do Arquivo");
+            }
             if (ch == ' ' || ch == '\t' || ch == '\r' || ch == '\b'){
                 readch();
             }
@@ -83,25 +85,38 @@ public class Lexer {
                 if (readncomparech('=')) return Word.ne;
                 return Word.nt;
             case '+':
+                ch= ' ';
                 return Word.plus;
             case '-':
+                ch= ' ';
                 return Word.minus;
             case '|':
                 if (readncomparech('|')) return Word.or;
-                else return new Token('|');
+                throw  new InvalidTokenException("Token Inválido", line, "|");
             case '*':
+                ch= ' ';
                 return Word.multiply;
             case '/':
+                ch= ' ';
                 return Word.divide;
             case '%':
+                ch= ' ';
                 return Word.modulus;
             case '&':
                 if (readncomparech('&')) return Word.and;
-                return new Token('&');
+                throw  new InvalidTokenException("Token Inválido", line, "&");
             case ',':
+                ch= ' ';
                 return Word.cl;
             case ';':
+                ch= ' ';
                 return Word.sc;
+            case '(':
+                ch = ' ';
+                return Word.op;
+            case ')':
+                ch = ' ';
+                return Word.cp;
         }
         //numeros
         if (Character.isDigit(ch)){
@@ -119,6 +134,7 @@ public class Lexer {
                 while(Character.isDigit(ch)){
                     valuef = valuef + fraction * Character.digit(ch,10);
                     fraction = fraction/10;
+                    readch();
                 }
                 return new Float_c(valuef);
             }
@@ -163,7 +179,7 @@ public class Lexer {
 
         Token t = new Token(ch);
         ch = ' ';
-        return t;
+        throw  new InvalidTokenException("Token Inválido", line, t.toString());
 
     }
 

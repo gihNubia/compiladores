@@ -18,6 +18,8 @@ public class Word extends Token{
     public static final Word cl = new Word(",", Tag.CL);
     public static final Word sc = new Word(";", Tag.SC);
     public static final Word nt = new Word("!", Tag.NT);
+    public static final Word op = new Word("(", Tag.OP);
+    public static final Word cp = new Word(")", Tag.CP);
 
     public Word (String s, int tag){
         super(tag);

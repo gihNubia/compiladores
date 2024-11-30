@@ -34,6 +34,8 @@ public class Tag {
             SC = 38, // ;
             CL= 39, // ,
             NT = 40, // !
+            OP = 41, // (
+            CP =42, // )
 
             INTEGER_C = 50,
             ID = 51,
@@ -42,6 +44,9 @@ public class Tag {
             LETTER = 53,
             DIGIT = 54,
             LITERAL = 55,
-            CONST = 56;
+            CONST = 56,
+
+            //ERROR
+            ERROR = 70;
 
 }
