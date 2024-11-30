@@ -4,4 +4,8 @@ public class InvalidToken extends Token{
         super(Tag.ERROR);
         this.value = value;
     }
+
+    public String toString(){
+        return "Invalid Token: \"" + value + "\"";
+    }
 }

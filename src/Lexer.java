@@ -92,7 +92,7 @@ public class Lexer {
                 return Word.minus;
             case '|':
                 if (readncomparech('|')) return Word.or;
-                throw  new InvalidTokenException("Token Inválido", line, "|");
+                return new InvalidToken("|");
             case '*':
                 ch= ' ';
                 return Word.multiply;
@@ -104,7 +104,7 @@ public class Lexer {
                 return Word.modulus;
             case '&':
                 if (readncomparech('&')) return Word.and;
-                throw  new InvalidTokenException("Token Inválido", line, "&");
+                return new InvalidToken("&");
             case ',':
                 ch= ' ';
                 return Word.cl;
@@ -144,12 +144,12 @@ public class Lexer {
         }
 
         //identificador
-        if (Character.isLetter(ch)){
+        if (Character.isLetter(ch) || ch == '_'){
             StringBuilder sb = new StringBuilder();
             do{
                 sb.append(ch);
                 readch();
-            }while(Character.isLetterOrDigit(ch));
+            }while(Character.isLetterOrDigit(ch) || ch == '_');
 
             String s = sb.toString();
             Word w = (Word)words.get(s);
@@ -169,6 +169,7 @@ public class Lexer {
 
             if(ch =='}'){
                 sb.append(ch);
+                ch = ' ';
                 return  new Literal(sb.toString());
             }
             else{
@@ -177,9 +178,9 @@ public class Lexer {
 
         }
 
-        Token t = new Token(ch);
+        Token t = new InvalidToken(String.valueOf(ch));
         ch = ' ';
-        throw  new InvalidTokenException("Token Inválido", line, t.toString());
+        return t;
 
     }
 

@@ -4,4 +4,8 @@ public class Literal extends Token{
         super(Tag.LITERAL);
         this.value = value;
     }
+
+    public String toString(){
+        return "" + value;
+    }
 }
