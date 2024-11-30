@@ -1,3 +1,5 @@
+package lexic;
+
 public class InvalidToken extends Token{
     String value;
     public InvalidToken(String value) {

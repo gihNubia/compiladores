@@ -1,4 +1,4 @@
-import java.lang.invoke.StringConcatException;
+package lexic;
 
 public class InvalidTokenException extends RuntimeException {
     Token token;

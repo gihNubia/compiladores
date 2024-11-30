@@ -1,3 +1,5 @@
+package lexic;
+
 public class Literal extends Token{
     String value;
     public Literal(String value) {

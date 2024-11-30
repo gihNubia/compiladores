@@ -2,6 +2,11 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
 
+import lexic.Token;
+import lexic.Lexer;
+import lexic.EndOfFileException;
+
+
 public class Main {
     public static void main(String[] args) {
 
