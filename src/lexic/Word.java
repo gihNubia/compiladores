@@ -23,7 +23,7 @@ public class Word extends Token{
     public static final Word op = new Word("(", Tag.OP);
     public static final Word cp = new Word(")", Tag.CP);
 
-    public Word (String s, int tag){
+    public Word (String s, Tag tag){
         super(tag);
         lexeme = s;
     }
