@@ -1,29 +1,28 @@
-/*// co
-b = 1/3 */
-anterior
-/* comen
-tario 12345
-D3
-muitas
-        linhas
-        */
-cadeira
+start
+ int a, b, c, maior, outro;
 
+ do
+ print({A});
+ scan(a);
+ print({B});
+ scan(b);
+ print({C});
+ scan(c);
+ //Realizacao do teste
+ if ( (a>b) && (a>c) )
+ maior = a
 
-//comentario 2
+ else
+ if (b>c) then
+ maior = b;
 
-a
-
-//comentário 3
-b
-
-
-c
-
-1/2
-
-//comentário 4
-
-/**/
-
-/**
+ else
+ maior = c;
+ end
+ end
+ print({Maior valor:}});
+ print (maior);
+ print ({Outro? });
+ scan(outro);
+ while (outro >= 0);
+exit
