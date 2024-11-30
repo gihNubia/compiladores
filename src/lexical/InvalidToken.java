@@ -1,4 +1,4 @@
-package lexic;
+package lexical;
 
 public class InvalidToken extends Token{
     String value;

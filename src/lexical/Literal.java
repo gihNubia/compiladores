@@ -1,4 +1,4 @@
-package lexic;
+package lexical;
 
 public class Literal extends Token{
     String value;

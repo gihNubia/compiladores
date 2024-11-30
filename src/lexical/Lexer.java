@@ -1,4 +1,4 @@
-package lexic;
+package lexical;
 
 import java.io.BufferedReader;
 import java.io.IOException;

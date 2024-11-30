@@ -1,4 +1,4 @@
-package lexic;
+package lexical;
 
 public class Int extends Token{
     int value;

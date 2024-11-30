@@ -1,4 +1,4 @@
-package lexic;
+package lexical;
 
 public class InvalidTokenException extends RuntimeException {
     Token token;

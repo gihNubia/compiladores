@@ -1,4 +1,4 @@
-package lexic;
+package lexical;
 
 public class InvalidNumberFormatException extends InvalidTokenException {
     public InvalidNumberFormatException(int line, String context) {

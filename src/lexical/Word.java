@@ -1,4 +1,4 @@
-package lexic;
+package lexical;
 
 public class Word extends Token{
     private String lexeme = "";

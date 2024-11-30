@@ -5,10 +5,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import lexic.Token;
-import lexic.Lexer;
-import lexic.StringException;
-import lexic.EndOfFileException;
+import lexical.EndOfFileException;
+import lexical.Lexer;
+import lexical.StringException;
+import lexical.Token;
 
 public class Main {
     public static void main(String[] args) {

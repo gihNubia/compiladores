@@ -1,4 +1,4 @@
-package lexic;
+package lexical;
 
 public class Float_c extends Token {
     double value;

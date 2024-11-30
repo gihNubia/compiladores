@@ -1,4 +1,4 @@
-package lexic;
+package lexical;
 
 public enum Tag {
     START,
