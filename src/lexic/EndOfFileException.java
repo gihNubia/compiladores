@@ -1,8 +1,8 @@
 package lexic;
 
-public class EndOfFileException extends RuntimeException {
-    public EndOfFileException(String message) {
+public class EndOfFileException extends InvalidTokenException {
+    public EndOfFileException(int line, String context) {
 
-        super(message);
+        super("Fim de arquivo inesperado", line, context);
     }
 }

@@ -6,11 +6,16 @@ import java.util.stream.Stream;
 
 import lexic.Token;
 import lexic.Lexer;
+import lexic.StringException;
 import lexic.EndOfFileException;
 
 public class Main {
     public static void main(String[] args) {
+        // System.out.println();
+        printLexic(args);
+    }
 
+    public static void printLexic(final String[] args) {
         Optional.of(args)
                 .map(Main::getFileName)
                 .map(Main::getLexer)
@@ -49,14 +54,17 @@ public class Main {
     private static Stream<Token> getTokens(final Lexer lexer) {
 
         return Stream.<Token>generate(() -> {
-            try {
-                return lexer.scan();
-            } catch (EndOfFileException eof) {
-
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
+            while(true) {
+                try {
+                    return lexer.scan();
+                } catch (EndOfFileException eof) {
+                    System.out.println(eof.getMessage());
+                } catch (StringException se) {
+                    System.out.println(se.getMessage());
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
             }
-            return null;
         }).takeWhile(tok -> tok != null);
     }
 }
