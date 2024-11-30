@@ -1,1 +1,15 @@
-a = 2.0;
+/*// co
+b = 1/3 */
+anterior
+/* comen
+tario 12345
+D3
+muitas
+        linhas
+        */
+cadeira
+
+
+//comentario 2
+
+a

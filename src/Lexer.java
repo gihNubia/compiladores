@@ -56,128 +56,152 @@ public class Lexer {
     }
 
     public Token scan() throws IOException {
-        while(true){
-            if(eof){
-                throw new EndOfFileException("Fim do Arquivo");
-            }
-            if (ch == ' ' || ch == '\t' || ch == '\r' || ch == '\b'){
-                readch();
-            }
-            else if(ch == '\n'){
-                readch();
-                line++;
-            }
-            else break;
-
-        }
-        //token simples
-        switch (ch){
-            case '=':
-                if (readncomparech('=')) return Word.equal;
-                return Word.at;
-            case '>':
-                if (readncomparech('=')) return Word.ge;
-                return Word.gt;
-            case '<':
-                if (readncomparech('=')) return Word.le;
-                return Word.lt;
-            case '!':
-                if (readncomparech('=')) return Word.ne;
-                return Word.nt;
-            case '+':
-                ch= ' ';
-                return Word.plus;
-            case '-':
-                ch= ' ';
-                return Word.minus;
-            case '|':
-                if (readncomparech('|')) return Word.or;
-                return new InvalidToken("|");
-            case '*':
-                ch= ' ';
-                return Word.multiply;
-            case '/':
-                ch= ' ';
-                return Word.divide;
-            case '%':
-                ch= ' ';
-                return Word.modulus;
-            case '&':
-                if (readncomparech('&')) return Word.and;
-                return new InvalidToken("&");
-            case ',':
-                ch= ' ';
-                return Word.cl;
-            case ';':
-                ch= ' ';
-                return Word.sc;
-            case '(':
-                ch = ' ';
-                return Word.op;
-            case ')':
-                ch = ' ';
-                return Word.cp;
-        }
-        //numeros
-        if (Character.isDigit(ch)){
-            int value=0;
-
-            do{
-                value = 10*value + Character.digit(ch,10);
-                readch();
-            }while(Character.isDigit(ch));
-
-            if(ch == '.'){
-                readch();
-                double valuef = (double) value;
-                double fraction =  0.1;
-                while(Character.isDigit(ch)){
-                    valuef = valuef + fraction * Character.digit(ch,10);
-                    fraction = fraction/10;
+        outer:{
+            while(true){
+                  if(eof){
+                    throw new EndOfFileException("Fim do Arquivo");
+                }
+                if (ch == ' ' || ch == '\t' || ch == '\r' || ch == '\b'){
                     readch();
                 }
-                return new Float_c(valuef);
+                else if(ch == '\n'){
+                    readch();
+                    line++;
+                }
+                else break;
+
             }
-            else{
-                return new Int(value);
+            //token simples
+
+            switch (ch){
+                case '=':
+                    if (readncomparech('=')) return Word.equal;
+                    return Word.at;
+                case '>':
+                    if (readncomparech('=')) return Word.ge;
+                    return Word.gt;
+                case '<':
+                    if (readncomparech('=')) return Word.le;
+                    return Word.lt;
+                case '!':
+                    if (readncomparech('=')) return Word.ne;
+                    return Word.nt;
+                case '+':
+                    ch= ' ';
+                    return Word.plus;
+                case '-':
+                    ch= ' ';
+                    return Word.minus;
+                case '|':
+                    if (readncomparech('|')) return Word.or;
+                    return new InvalidToken("|");
+                case '*':
+                    ch= ' ';
+                    return Word.multiply;
+                case '/':
+                    readch();
+                    //comentario de uma linha
+                    if (ch == '/'){
+                        do {
+                            readch();
+                        }while (ch != '\n');
+                        readch();
+                        break outer;
+                    }
+                    else if (ch == '*'){
+                        readch();
+                        char before;
+                        while (true) {
+                            before = ch;
+                            readch();
+                            if (before == '*' && ch =='/'){
+                                //readch();;
+                                break outer;
+                            }
+                        }
+                    }
+                    else{
+                        return Word.divide;
+                    }
+                case '%':
+                    ch= ' ';
+                    return Word.modulus;
+                case '&':
+                    if (readncomparech('&')) return Word.and;
+                    return new InvalidToken("&");
+                case ',':
+                    ch= ' ';
+                    return Word.cl;
+                case ';':
+                    ch= ' ';
+                    return Word.sc;
+                case '(':
+                    ch = ' ';
+                    return Word.op;
+                case ')':
+                    ch = ' ';
+                    return Word.cp;
+            }
+            //numeros
+            if (Character.isDigit(ch)){
+                int value=0;
+
+                do{
+                    value = 10*value + Character.digit(ch,10);
+                    readch();
+                }while(Character.isDigit(ch));
+
+                if(ch == '.'){
+                    readch();
+                    double valuef = (double) value;
+                    double fraction =  0.1;
+                    while(Character.isDigit(ch)){
+                        valuef = valuef + fraction * Character.digit(ch,10);
+                        fraction = fraction/10;
+                        readch();
+                    }
+                    return new Float_c(valuef);
+                }
+                else{
+                    return new Int(value);
+                }
+            }
+
+            //identificador
+            if (Character.isLetter(ch) || ch == '_'){
+                StringBuilder sb = new StringBuilder();
+                do{
+                    sb.append(ch);
+                    readch();
+                }while(Character.isLetterOrDigit(ch) || ch == '_');
+
+                String s = sb.toString();
+                Word w = (Word)words.get(s);
+                if (w != null) return w; //palavra já existe
+                w = new Word (s, Tag.ID);
+                words.put(s, w);
+                return w;
+            }
+
+            //literal
+            if(ch == '{'){
+                StringBuilder sb = new StringBuilder();
+                do{
+                    sb.append(ch);
+                    readch();
+                }while(ch != '}' && !eof && ch != '\n');
+
+                if(ch =='}'){
+                    sb.append(ch);
+                    ch = ' ';
+                    return  new Literal(sb.toString());
+                }
+                else{
+                    throw new StringException("String mal formada", line, sb.toString());
+                }
+
             }
         }
-
-        //identificador
-        if (Character.isLetter(ch) || ch == '_'){
-            StringBuilder sb = new StringBuilder();
-            do{
-                sb.append(ch);
-                readch();
-            }while(Character.isLetterOrDigit(ch) || ch == '_');
-
-            String s = sb.toString();
-            Word w = (Word)words.get(s);
-            if (w != null) return w; //palavra já existe
-            w = new Word (s, Tag.ID);
-            words.put(s, w);
-            return w;
-        }
-
-        //literal
-        if(ch == '{'){
-            StringBuilder sb = new StringBuilder();
-            do{
-                sb.append(ch);
-                readch();
-            }while(ch != '}' && !eof && ch != '\n');
-
-            if(ch =='}'){
-                sb.append(ch);
-                ch = ' ';
-                return  new Literal(sb.toString());
-            }
-            else{
-                throw new StringException("String mal formada", line, sb.toString());
-            }
-
-        }
-
         Token t = new InvalidToken(String.valueOf(ch));
         ch = ' ';
         return t;
