@@ -35,14 +35,9 @@ public enum Tag {
     OP, // (
     CP, // )
 
-    INTEGER_C,
     ID,
     FLOAT_C,
-    CHAR,
-    LETTER,
-    DIGIT,
     LITERAL,
-    CONST,
 
     // ERROR
     ERROR;
