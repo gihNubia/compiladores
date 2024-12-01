@@ -243,7 +243,7 @@ public class Lexer {
         do {
             sb.append(ch);
             readch();
-        } while (Character.isLetterOrDigit(ch));
+        } while (Character.isLetterOrDigit(ch) || ch == '_');
 
         String s = sb.toString();
 
