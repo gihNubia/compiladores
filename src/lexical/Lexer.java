@@ -247,6 +247,12 @@ public class Lexer {
 
         String s = sb.toString();
 
+        if(s.equals("_")){
+            Token t = new InvalidToken(String.valueOf('_'));
+            ch = ' ';
+            return Optional.of(t);
+        }
+
         return Optional.of(s)
                 .<Token>map(words::get)
                 .or(() -> {
