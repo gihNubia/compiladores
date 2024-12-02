@@ -1,6 +1,6 @@
 // Inicia o programa
 start
-/* Declara
+/*// Declara
     uma
         variavel do tipo float */
  float a;   
@@ -8,9 +8,10 @@ start
  float a,x,total;
  a = 2.0;
  x = .1;
- y =    0.;
+ y_ =    0.7;
  scan (b);
  scan (y)
+ _
  result = (a*b ++ 1) % a;
  print {Resultado: };
  print (result);
@@ -19,7 +20,6 @@ start
  print ({Total: };
  print (total);
  {}
- {texto
- }
+ {texto}
 exit
-/**
+/**/
