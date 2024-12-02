@@ -243,15 +243,9 @@ public class Lexer {
         do {
             sb.append(ch);
             readch();
-        } while (Character.isLetterOrDigit(ch) || ch == '_');
+        } while (Character.isLetterOrDigit(ch));
 
         String s = sb.toString();
-
-        if(s.equals("_")){
-            Token t = new InvalidToken(String.valueOf('_'));
-            ch = ' ';
-            return Optional.of(t);
-        }
 
         return Optional.of(s)
                 .<Token>map(words::get)
