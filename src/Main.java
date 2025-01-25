@@ -9,6 +9,7 @@ import lexical.EndOfFileException;
 import lexical.Lexer;
 import lexical.StringException;
 import lexical.Token;
+import sintatic.Asd;
 
 public class Main {
     public static void main(String[] args) {
@@ -28,6 +29,7 @@ public class Main {
                     System.out.println("==========================");
                     System.out.println("Simbolos: ");
                     lexer.words.keySet().forEach(System.out::println);
+                    //Main.runSintaticAnalysis(tokens);
                 });
 
                 // .map(Main::getTokens)
@@ -77,5 +79,15 @@ public class Main {
                 }
             }
         }).takeWhile(tok -> tok != null);
+    }
+
+    private static void runSintaticAnalysis(List<Token> tokens) {
+        try {
+            Asd asd = new Asd(tokens); // Presume-se que o Asd tenha um construtor que aceita uma lista de tokens
+            //asd.analyze(); // Método para iniciar a análise sintática
+            System.out.println("Análise sintática concluída com sucesso!");
+        } catch (Exception e) {
+            System.out.println("Erro durante a análise sintática: " + e.getMessage());
+        }
     }
 }
