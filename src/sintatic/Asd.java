@@ -159,28 +159,222 @@ public class Asd {
         eat("AT"); //ADC AT EXCEPRION
         simple_expr();
     }
-    private void if_stmt(){
+    private void if_stmt() throws Exception {
         //if-stmt ::= if condition then stmt-list end
-        // TO-DO
+        eat("IF"); //adc ERRO
+        condition();
+        eat("THEN");
+        stmt_list();
+        if(tok.getTagString().equals("END")){
+            eat("END"); //adc erro
+        }
+        else{
+            eat("ELSE"); //adc erro
+            stmt_list();
+            eat("END"); //adc erro
+        }
     }
-    private void while_stmt(){
+    private void while_stmt() throws Exception {
         //while-stmt ::= do stmt-list stmt-sufix
-        // TO-DO
+        eat("DO"); //adc erro
+        stmt_list();
+        stmt_sufix();
     }
-
-    private void read_stmt(){
+    private void read_stmt() throws Exception {
         //read-stmt ::= scan "(" identifier ")"
-        //TO-DO
+        eat("SCAN"); //adc erro
+        eat("OP"); //adc erro
+        eat("ID"); //adc erro
+        eat("CP"); //adc erro
     }
 
-    private void write_stmt(){
+    private void write_stmt() throws Exception {
         //write-stmt ::= print "(" writable ")"
-        //TO-DO
+        eat("PRINT"); //adc erro
+        eat("OP"); //adc erro
+        writable(); //adc erro
+        eat("CP"); //adc erro
     }
 
-    private void simple_expr(){
+    private void simple_expr() throws Exception {
         //simple-expr ::= term | simple-expr addop term
-        //TO-DO
+        switch (tok.getTagString()){
+            case "ID":
+            case "FLOAT_C":
+            case "INT":
+            case "LITERAL":
+            case "NT":
+            case "MINUS":
+            case "OP":
+                term();
+                break;
+            default:    simple_expr();
+                        addop();
+                        term();
+        }
+    }
+
+    private void condition() throws Exception {
+        //condition ::= expression
+        expression();
+    }
+
+    private void stmt_sufix() throws Exception {
+        //stmt-sufix ::= while condition end
+        eat("WHILE"); //adc erro
+        condition();
+        eat("END"); //adc erro
+    }
+    private void writable() throws Exception {
+        //writable ::= simple-expr | literal
+        if(tok.getTagString().equals("LITERAL")){
+            eat("LITERAL"); //adc erro
+        }
+        else{
+            simple_expr(); //adc erro
+        }
+    }
+    public void term() throws Exception {
+       //term ::= factor-a | term mulop factor-a
+        switch (tok.getTagString()){
+            case "ID":
+            case "FLOAT_C":
+            case "INT":
+            case "LITERAL":
+            case "NT":
+            case "MINUS":
+            case "OP":
+                factor_a();
+                break;
+            default:    term();
+                        mulop();
+                        factor_a();
+        }
+    }
+    public void addop() throws Exception {
+        //addop ::= "+" | "-" | "||"
+        switch (tok.getTagString()){
+            case "PLUS":
+                eat("PLUS"); //adc erro
+            case "MINUS":
+                eat("MINUS"); //adc erro
+            case "OR":
+                eat("OR"); //adc erro
+                break;
+            default: throw new Exception("invalid operation"); //adc erro
+        }
+    }
+    public void mulop() throws Exception {
+        //mulop ::=  "*" | "/" | “%” | "&&"
+        switch (tok.getTagString()){
+            case "MULTIPLY":
+                eat("MULTIPLY"); //adc erro
+            case "DIVIDE":
+                eat("DIVIDE"); //adc erro
+            case "MODULUS":
+                eat("MODULUS"); //adc erro
+            case "AND":
+                eat("AND"); //adc erro
+                break;
+            default: throw new Exception("invalid operation"); //adc erro
+        }
+    }
+    public void factor_a() throws Exception {
+        //fator-a ::= factor | "!" factor |  "-" factor
+        switch (tok.getTagString()){
+            case "ID":
+            case "FLOAT_C":
+            case "INT":
+            case "LITERAL":
+            case "OP":
+                factor();
+                break;
+            case "NT":
+                eat("NT");
+                factor();
+                break;
+            case "MINUS":
+                eat("MINUS");
+                break;
+            default: throw new Exception("Tipo inválido"); //adc erro
+        }
+    }
+
+    public void expression() throws Exception {
+        //expression ::= simple-expr | simple-expr relop simple-expr
+        simple_expr();
+
+        //opcional
+        switch (tok.getTagString()){
+            case "EQ":
+            case "GT":
+            case "GE":
+            case "LT":
+            case "LE":
+            case "NE":
+                relop();
+                simple_expr();
+                break;
+            default: ;
+        }
+    }
+    public void factor() throws Exception {
+        //factor ::= identifier | constant | "(" expression ")"
+        switch (tok.getTagString()){
+            case "ID":
+                eat("ID"); //adc erro
+                break;
+            case "FLOAT_C":
+            case "INT":
+            case "LITERAL":
+                constant();
+                break;
+            case "OP":
+                eat("OP");
+                expression();
+                eat("CP");
+                break;
+            default: throw new Exception("Tipo inválido"); //adc erro
+        }
+    }
+    private void constant() throws Exception {
+        //constant ::= integer_const | float_const | literal
+        switch (tok.getTagString()){
+            case "FLOAT_C":
+                eat("FLOAT_C");
+                break;
+            case "INT":
+                eat("INT");
+                break;
+            case "LITERAL":
+                eat("LITERAL");
+                break;
+            default: throw new Exception("Tipo inválido"); //adc erro
+        }
+    }
+    private void relop() throws Exception {
+        //relop ::= "==" | ">" | ">=" | "<" | "<=" | "!="
+        switch (tok.getTagString()){
+            case "EQ":
+                eat("EQ");
+                break;
+            case "GT":
+                eat("GT");
+                break;
+            case "GE":
+                eat("GE");
+                break;
+            case "LT":
+                eat("LT");
+                break;
+            case "LE":
+                eat("LE");
+                break;
+            case "NE":
+                eat("NE");
+                break;
+            default: throw new Exception("Tipo inválido"); //adc erro
+        }
     }
 
 }
