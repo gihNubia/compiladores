@@ -29,7 +29,7 @@ public class Main {
                     System.out.println("==========================");
                     System.out.println("Simbolos: ");
                     lexer.words.keySet().forEach(System.out::println);
-                    //Main.runSintaticAnalysis(tokens);
+                    Main.runSintaticAnalysis(tokens);
                 });
 
                 // .map(Main::getTokens)
@@ -83,7 +83,7 @@ public class Main {
 
     private static void runSintaticAnalysis(List<Token> tokens) {
         try {
-            Asd asd = new Asd(tokens); // Presume-se que o Asd tenha um construtor que aceita uma lista de tokens
+            Asd asd = new Asd(tokens);
             //asd.analyze(); // Método para iniciar a análise sintática
             System.out.println("Análise sintática concluída com sucesso!");
         } catch (Exception e) {

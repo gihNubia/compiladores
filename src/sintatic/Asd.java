@@ -7,16 +7,17 @@ import java.util.List;
 public class Asd {
     private final List<Token> tokens;
     private int currentIndex;
+    Token tok;
     public Asd(List<Token> tokens) throws Exception {
         this.tokens = tokens;
         this.currentIndex = 0;
+        tok = getToken();
         program();
     }
-    Token tok = getToken();
-
     private Token getToken(){
         if (currentIndex <= tokens.size()){
-            return tokens.get(currentIndex);
+            currentIndex++;
+            return tokens.get(currentIndex-1);
         }
         return null;
     }
@@ -28,7 +29,7 @@ public class Asd {
 
         if (tok.getTagString().equals(t)) advance();
         else {
-            throw new Exception("Erro de sintaxe");
+            throw new Exception("Erro de sintaxe no token" + tok.getTagString());
         }
     }
 
@@ -68,7 +69,6 @@ public class Asd {
 
     }
     private void stmt_list() throws Exception {
-        // TO-DO
         // stmt-list  ::= stmt {stmt}
         switch (tok.getTagString()){
             case "ID": stmt();
@@ -88,15 +88,12 @@ public class Asd {
                 || tok.getTagString().equals("WHILE")|| tok.getTagString().equals("SCAN")
                 || tok.getTagString().equals("PRINT")){
             switch (tok.getTagString()){
-                case "ID": stmt();
-                    break;
-                case "IF": stmt();
-                    break;
-                case "WHILE": stmt();
-                    break;
-                case "SCAN": stmt();
-                    break;
-                case "PRINT": stmt();
+                case "ID":
+                case "IF":
+                case "WHILE":
+                case "SCAN":
+                case "PRINT":
+                    stmt();
                     break;
                 default: break;
             }
