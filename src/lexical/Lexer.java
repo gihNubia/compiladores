@@ -43,6 +43,10 @@ public class Lexer {
      * 
      * @throws RuntimeException se houve erro de IO
      */
+
+    public int getLine(){
+        return line;
+    }
     private void readch() {
         if (eof)
             return;

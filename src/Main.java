@@ -5,10 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import lexical.EndOfFileException;
-import lexical.Lexer;
-import lexical.StringException;
-import lexical.Token;
+import lexical.*;
 import sintatic.Asd;
 
 public class Main {
@@ -22,10 +19,10 @@ public class Main {
                 .map(Main::getLexer)
                 .ifPresent(lexer -> {
                     System.out.println("Iniciar analise");
-                    List<Token> tokens = Main.getTokens(lexer).toList();
+                    List<TokenWithLine> tokens = Main.getTokens(lexer).toList();
                     System.out.println("==========================");
                     System.out.println("Tokens: ");
-                    tokens.stream().map(Token::toString).forEach(System.out::println);
+                    tokens.stream().map(twl -> twl.getToken().toString() + ", linha: " + twl.getLine()).forEach(System.out::println);
                     System.out.println("==========================");
                     System.out.println("Simbolos: ");
                     lexer.words.keySet().forEach(System.out::println);
@@ -64,12 +61,19 @@ public class Main {
                 .orElse(null);
     }
 
-    private static Stream<Token> getTokens(final Lexer lexer) {
+    private static Stream<TokenWithLine> getTokens(final Lexer lexer) {
 
-        return Stream.<Token>generate(() -> {
+        return Stream.<TokenWithLine>generate(() -> {
             while(true) {
                 try {
-                    return lexer.scan();
+                    Token l =  lexer.scan();
+                    if(l != null){
+                        TokenWithLine t = new TokenWithLine(l, lexer.getLine());
+                        return t;
+                    }
+                    else {
+                        return null;
+                    }
                 } catch (EndOfFileException eof) {
                     System.out.println(eof.getMessage());
                 } catch (StringException se) {
@@ -81,7 +85,7 @@ public class Main {
         }).takeWhile(tok -> tok != null);
     }
 
-    private static void runSintaticAnalysis(List<Token> tokens) {
+    private static void runSintaticAnalysis(List<TokenWithLine> tokens) {
         try {
             Asd asd = new Asd(tokens);
             System.out.println("Análise sintática concluída com sucesso!");
