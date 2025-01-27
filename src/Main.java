@@ -84,7 +84,6 @@ public class Main {
     private static void runSintaticAnalysis(List<Token> tokens) {
         try {
             Asd asd = new Asd(tokens);
-            //asd.analyze(); // Método para iniciar a análise sintática
             System.out.println("Análise sintática concluída com sucesso!");
         } catch (Exception e) {
             System.out.println("Erro durante a análise sintática: " + e.getMessage());

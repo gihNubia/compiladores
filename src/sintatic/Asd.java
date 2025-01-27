@@ -29,7 +29,7 @@ public class Asd {
 
         if (tok.getTagString().equals(t)) advance();
         else {
-            throw new Exception("Erro de sintaxe no token" + tok.getTagString());
+            throw new Exception("Erro de sintaxe no token " + tok.getTagString() + " " + tok.getValueString());
         }
     }
 
@@ -81,7 +81,8 @@ public class Asd {
                 break;
             case "PRINT": stmt();
                 break;
-            default: throw new Exception("stmt error: Expect ID, IF, WHILE, SCAN or PRINT");
+            default: throw new Exception("stmt error: Expect ID, IF, WHILE, SCAN or PRINT" +
+                    "\nErro de sintaxe no token" + tok.getTagString() + " " + tok.getValueString());
         }
         //fazer o while
         while (tok.getTagString().equals("ID") || tok.getTagString().equals("IF")
@@ -116,7 +117,8 @@ public class Asd {
             case "PRINT":  write_stmt();
                         eat("SC"); // ADC SC EXCEPTION
                         break;
-            default: throw new Exception("stmt error: Expect ID, IF, WHILE, SCAN or PRINT");
+            default: throw new Exception("stmt error: Expect ID, IF, WHILE, SCAN or PRINT" +
+                    "\nErro de sintaxe no token" + tok.getTagString() + " " + tok.getValueString());
         }
     }
 
@@ -135,7 +137,8 @@ public class Asd {
             case "FLOAT": eat("FLOAT");
                 break;
             case "STRING": eat("STRING");
-            default: throw new Exception("Tipo inválido"); //tipo invalido
+            default: throw new Exception("Tipo inválido, expect INT, FLOAT or STRING" +
+                    "\nErro de sintaxe no token" + tok.getTagString() + " " + tok.getValueString()); //tipo invalido
         }
     }
 
@@ -205,9 +208,19 @@ public class Asd {
             case "OP":
                 term();
                 break;
-            default:    simple_expr();
-                        addop();
-                        term();
+            default:
+                        if(tok.getTagString().equals("ID") || tok.getTagString().equals("FLOAT_C")
+                                || tok.getTagString().equals("INT") || tok.getTagString().equals("LITERAL")
+                                || tok.getTagString().equals("NT") ||  tok.getTagString().equals("MINUS")
+                                || tok.getTagString().equals("OP")){
+                                    simple_expr();
+                                    addop();
+                                    term();
+                        }
+                        else{
+                            throw new Exception("invalid operation " + tok.getValueString()); //adc erro
+                        }
+
         }
     }
 
@@ -258,7 +271,8 @@ public class Asd {
             case "OR":
                 eat("OR"); //adc erro
                 break;
-            default: throw new Exception("invalid operation"); //adc erro
+            default: throw new Exception("invalid operation, expect PLUS, MINUS or OR" +
+                    "\nErro de sintaxe no token" + tok.getTagString() + " " + tok.getValueString()); //adc erro
         }
     }
     public void mulop() throws Exception {
@@ -273,7 +287,8 @@ public class Asd {
             case "AND":
                 eat("AND"); //adc erro
                 break;
-            default: throw new Exception("invalid operation"); //adc erro
+            default: throw new Exception("invalid operation, expect MULTIPLY, DIVIDE, MODULUS or AND" +
+                    "\nErro de sintaxe no token" + tok.getTagString() + " " + tok.getValueString()); //adc erro
         }
     }
     public void factor_a() throws Exception {
@@ -293,7 +308,8 @@ public class Asd {
             case "MINUS":
                 eat("MINUS");
                 break;
-            default: throw new Exception("Tipo inválido"); //adc erro
+            default: throw new Exception("Tipo inválido, expect ID, FLOAT_C, INT, LITERAL, OP, NT or MINUS" +
+                    "\nErro de sintaxe no token" + tok.getTagString() + " " + tok.getValueString()); //adc erro
         }
     }
 
@@ -331,7 +347,8 @@ public class Asd {
                 expression();
                 eat("CP");
                 break;
-            default: throw new Exception("Tipo inválido"); //adc erro
+            default: throw new Exception("Tipo inválido, expect ID, FLOAT_C, INT, LITERAL or OP" +
+                    "\nErro de sintaxe no token" + tok.getTagString() + " " + tok.getValueString()); //adc erro
         }
     }
     private void constant() throws Exception {
@@ -346,7 +363,8 @@ public class Asd {
             case "LITERAL":
                 eat("LITERAL");
                 break;
-            default: throw new Exception("Tipo inválido"); //adc erro
+            default: throw new Exception("Tipo inválido, expect FLOAT_C, INT or LITERAL" +
+                    "\nErro de sintaxe no token" + tok.getTagString() + " " + tok.getValueString()); //adc erro
         }
     }
     private void relop() throws Exception {
@@ -370,7 +388,8 @@ public class Asd {
             case "NE":
                 eat("NE");
                 break;
-            default: throw new Exception("Tipo inválido"); //adc erro
+            default: throw new Exception("Tipo inválido, expect EQ, GT, GE, LT, LE or NE" +
+                    "\nErro de sintaxe no token" + tok.getTagString() + " " + tok.getValueString()); //adc erro
         }
     }
 
