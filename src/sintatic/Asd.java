@@ -46,7 +46,13 @@ public class Asd {
         //opcional
         decl_list();
         stmt_list();
-        eat("EXIT");
+        try{
+            eat("EXIT");
+        }
+        catch (IndexOutOfBoundsException e){
+
+        }
+
     }
     private void decl_list() throws Exception {
         //opcional
@@ -82,7 +88,7 @@ public class Asd {
                 break;
             case "IF": stmt();
                 break;
-            case "WHILE": stmt();
+            case "DO": stmt();
                 break;
             case "SCAN": stmt();
                 break;
@@ -94,12 +100,12 @@ public class Asd {
         }
         //fazer o while
         while (tok.getTagString().equals("ID") || tok.getTagString().equals("IF")
-                || tok.getTagString().equals("WHILE")|| tok.getTagString().equals("SCAN")
+                || tok.getTagString().equals("DO")|| tok.getTagString().equals("SCAN")
                 || tok.getTagString().equals("PRINT")){
             switch (tok.getTagString()){
                 case "ID":
                 case "IF":
-                case "WHILE":
+                case "DO":
                 case "SCAN":
                 case "PRINT":
                     stmt();
@@ -117,7 +123,7 @@ public class Asd {
                         break;
             case "IF":  if_stmt();
                         break;
-            case "WHILE": while_stmt();
+            case "DO": while_stmt();
                         break;
             case "SCAN": read_stmt();
                         eat("SC"); // ADC SC EXCEPTION
@@ -146,6 +152,7 @@ public class Asd {
             case "FLOAT": eat("FLOAT");
                 break;
             case "STRING": eat("STRING");
+                break;
             default: throw new Exception("Tipo inválido, expect INT, FLOAT or STRING" +
                     "\nErro de sintaxe no token" + tok.getTagString() + " " + tok.getValueString()
                     + " na linha " + lines.get(currentIndex)); //tipo invalido
@@ -208,6 +215,7 @@ public class Asd {
 
     private void simple_expr() throws Exception {
         //simple-expr ::= term | simple-expr addop term
+        //simple-expr ::= term simple-expr-tail
         switch (tok.getTagString()){
             case "ID":
             case "FLOAT_C":
@@ -217,21 +225,40 @@ public class Asd {
             case "MINUS":
             case "OP":
                 term();
+                simple_expr_tail();
                 break;
             default:
-                        if(tok.getTagString().equals("ID") || tok.getTagString().equals("FLOAT_C")
-                                || tok.getTagString().equals("INT") || tok.getTagString().equals("LITERAL")
-                                || tok.getTagString().equals("NT") ||  tok.getTagString().equals("MINUS")
-                                || tok.getTagString().equals("OP")){
-                                    simple_expr();
-                                    addop();
-                                    term();
-                        }
-                        else{
-                            throw new Exception("invalid operation - " + tok.getValueString()
-                                    + " na linha " + lines.get(currentIndex)); //adc erro
-                        }
+                throw new Exception("invalid operation - " + tok.getValueString()
+                        + " na linha " + lines.get(currentIndex)); //adc erro
 
+
+        }
+    }
+
+    private void simple_expr_tail() throws Exception {
+        //simple-expr-tail ::= addop term simple-expr-tail | lambda
+        switch (tok.getTagString()){
+            case "PLUS":
+            case "MINUS":
+            case "OR":
+            case "MULTIPLY":
+            case "DIVIDE":
+            case "MODULUS":
+            case "AND":
+            case "NOT":
+            case "ID":
+            case "FLOAT_C":
+            case "INT":
+            case "LITERAL":
+            case "OP":
+                addop();
+                term();
+                if(tok.getTagString().equals("PLUS")||tok.getTagString().equals("MINUS")
+                ||tok.getTagString().equals("OR")){
+                    simple_expr_tail();
+                }
+                break;
+            default:;
         }
     }
 
@@ -257,6 +284,8 @@ public class Asd {
     }
     public void term() throws Exception {
        //term ::= factor-a | term mulop factor-a
+       //term ::= factor-a term-tail
+        // term-tail ::= mulop factor-a term-tail | lambda
         switch (tok.getTagString()){
             case "ID":
             case "FLOAT_C":
@@ -266,25 +295,54 @@ public class Asd {
             case "MINUS":
             case "OP":
                 factor_a();
+                term_tail();
                 break;
-            default:    term();
-                        mulop();
-                        factor_a();
+            default:    throw new Exception("invalid operation, expect PLUS, MINUS or OR" +
+                    "\nErro de sintaxe no token" + tok.getTagString() + " " + tok.getValueString()
+                    + " na linha " + lines.get(currentIndex)); //adc erro
         }
     }
-    public void addop() throws Exception {
+
+    private void term_tail()  throws Exception{
+        // term-tail ::= mulop factor-a term-tail | lambda
+        switch (tok.getTagString()){
+            case "ID":
+            case "FLOAT_C":
+            case "INT":
+            case "LITERAL":
+            case "NT":
+            case "MINUS":
+            case "OP":
+            case "MULTIPLY":
+            case "DIVIDE":
+            case "MODULUS":
+            case "AND":
+                mulop();
+                //add sub or semu
+                if(tok.getTagString().equals("NT")||tok.getTagString().equals("MINUS")
+                || tok.getTagString().equals("ID") || tok.getTagString().equals("FLOAT_C")
+                || tok.getTagString().equals("INT") || tok.getTagString().equals("LITERAL")
+                || tok.getTagString().equals("OP")){
+                    factor_a();
+                }
+                term_tail();
+                break;
+            default: ;
+        }
+    }
+    private void addop() throws Exception {
         //addop ::= "+" | "-" | "||"
         switch (tok.getTagString()){
             case "PLUS":
                 eat("PLUS"); //adc erro
+                break;
             case "MINUS":
                 eat("MINUS"); //adc erro
+                break;
             case "OR":
                 eat("OR"); //adc erro
                 break;
-            default: throw new Exception("invalid operation, expect PLUS, MINUS or OR" +
-                    "\nErro de sintaxe no token" + tok.getTagString() + " " + tok.getValueString()
-                    + " na linha " + lines.get(currentIndex)); //adc erro
+            default: ;
         }
     }
     public void mulop() throws Exception {
@@ -292,10 +350,13 @@ public class Asd {
         switch (tok.getTagString()){
             case "MULTIPLY":
                 eat("MULTIPLY"); //adc erro
+                break;
             case "DIVIDE":
                 eat("DIVIDE"); //adc erro
+                break;
             case "MODULUS":
                 eat("MODULUS"); //adc erro
+                break;
             case "AND":
                 eat("AND"); //adc erro
                 break;

@@ -21,11 +21,11 @@ public class Main {
                     System.out.println("Iniciar analise");
                     List<TokenWithLine> tokens = Main.getTokens(lexer).toList();
                     System.out.println("==========================");
-                    System.out.println("Tokens: ");
-                    tokens.stream().map(twl -> twl.getToken().toString() + ", linha: " + twl.getLine()).forEach(System.out::println);
+                    //System.out.println("Tokens: ");
+                    //tokens.stream().map(twl -> twl.getToken().toString() + ", linha: " + twl.getLine()).forEach(System.out::println);
                     System.out.println("==========================");
-                    System.out.println("Simbolos: ");
-                    lexer.words.keySet().forEach(System.out::println);
+                    //System.out.println("Simbolos: ");
+                   // lexer.words.keySet().forEach(System.out::println);
                     Main.runSintaticAnalysis(tokens);
                 });
 
